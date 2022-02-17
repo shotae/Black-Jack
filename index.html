@@ -6,19 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-  <title>WEBページテンプレート</title>
+  <title>BLACK JACK</title>
 </head>
 <body>
   <div class="table">
     <div class="dealer">
       <p class="hidden">DEALER</p>
-      <div id="dealer-points" class="restart"></div>
-      <div id="dealer-cards" class="restart"></div>
+      <div id="dealer-points" class="html-reset"></div>
+      <div id="dealer-cards" class="html-reset hand"></div>
     </div>
     <div class="player">
-      <div id="player-cards" class="restart"></div>
-      <p class="hidden">PLAYER</p>
-      <div id="player-points" class="restart"></div>
+      <div class='cards-wrap'>
+        <div id="player-cards" class="html-reset hand"></div>
+        <div id="player-points" class="html-reset"></div>
+      </div>
+      <div class='cards-wrap1 split-hidden'>
+        <div id="player-cards1" class="html-reset hand"></div>
+        <div id="player-points1" class="html-reset"></div>
+      </div>
+      <div class='cards-wrap2 split-hidden'>
+        <div id="player-cards2" class="html-reset hand"></div>
+        <div id="player-points2" class="html-reset"></div>
+      </div>
+
+      <!-- <p class="hidden">PLAYER</p> -->
+
+
     </div>
 
   </div>
@@ -26,11 +39,11 @@
   <div id="button-wrap">
     <button class="hidden" id="hit-button" type="button">hit</button>
     <button class="hidden" id="stand-button" type="button">stand</button>
-    <!-- <button class="hidden" id="split-button" type="button">split</button>
-    <button class="hidden" id="double-button" type="button">double</button> -->
+    <button class="hidden" id="split-button" type="button">split</button>
+    <button class="hidden" id="double-button" type="button">double</button>
   </div>
 
-  <div id="result" class="restart"></div>
+  <div id="result" class="html-reset"></div>
   <button id="start-game" class="start-game">start game</button>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

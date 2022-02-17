@@ -60,8 +60,25 @@ html {
   bottom: 30%;
 }
 
-#dealer-cards,
-#player-cards {
+.cards-wrap,
+.cards-wrap1,
+.cards-wrap2 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.cards-wrap {
+  width: 100%;
+}
+
+.cards-wrap1,
+.cards-wrap2 {
+  width: 50%;
+}
+
+.hand {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -70,11 +87,14 @@ html {
   margin: 10px auto;
 }
 
-#dealer-cards > div,
-#player-cards > div {
+.hand > div {
   width: 100px;
   height: 142px;
   margin: 0 10px;
+}
+
+.split-hidden {
+  display: none;
 }
 
 #button-wrap {
