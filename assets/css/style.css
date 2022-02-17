@@ -1,0 +1,446 @@
+@charset "utf-8";
+html {
+  font-size: 24px;
+  color: #fff;
+  background: green;
+}
+
+.cant-use {
+  pointer-events: none;
+}
+
+.hidden {
+  display: none;
+}
+
+.card-animation {
+  animation: fade, 5s, forwards, ease-in-out;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.table {
+  width: 100%;
+  position: rerative;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.table p {
+  margin-right: 20px;
+}
+
+.dealer,
+.player {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  z-index: -1;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
+
+.dealer {
+  top: 10%;
+}
+
+.player {
+  bottom: 30%;
+}
+
+#dealer-cards,
+#player-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 10px auto;
+}
+
+#dealer-cards > div,
+#player-cards > div {
+  width: 100px;
+  height: 142px;
+  margin: 0 10px;
+}
+
+#button-wrap {
+  width: 100%;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#button-wrap button {
+  margin: 0 10px;
+  padding: 10px;
+  border: #fff 3px solid;
+  border-radius: 50%;
+  width: 100px;
+  text-align: center;
+}
+
+#result {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  text-align: center;
+}
+
+.start-game {
+  position: fixed;
+  right: 50%;
+  bottom: 50%;
+  transform: translate(50%, 50%);
+  width: 150px;
+  height: 150px;
+  background: yellow;
+  color: #000;
+  border: yellow 3px solid;
+  border-radius: 100%;
+  text-align: center;
+}
+
+.new-game {
+  width: 150px;
+  height: 50px;
+  border-radius: 10%;
+  position: fixed;
+  bottom: 10%;
+  margin-bottom: 10px;
+  transform: translate(50%, 10%);
+}
+
+.spade1 {
+  background-image: url(../img/spade1.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.spade2 {
+  background-image: url(../img/spade2.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.spade3 {
+  background-image: url(../img/spade3.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.spade4 {
+  background-image: url(../img/spade4.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.spade5 {
+  background-image: url(../img/spade5.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.spade6 {
+  background-image: url(../img/spade6.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.spade7 {
+  background-image: url(../img/spade7.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.spade8 {
+  background-image: url(../img/spade8.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.spade9 {
+  background-image: url(../img/spade9.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.spade10 {
+  background-image: url(../img/spade10.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.spade11 {
+  background-image: url(../img/spade11.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.spade12 {
+  background-image: url(../img/spade12.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.spade13 {
+  background-image: url(../img/spade13.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.club1 {
+  background-image: url(../img/club1.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.club2 {
+  background-image: url(../img/club2.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.club3 {
+  background-image: url(../img/club3.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.club4 {
+  background-image: url(../img/club4.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.club5 {
+  background-image: url(../img/club5.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.club6 {
+  background-image: url(../img/club6.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.club7 {
+  background-image: url(../img/club7.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.club8 {
+  background-image: url(../img/club8.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.club9 {
+  background-image: url(../img/club9.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.club10 {
+  background-image: url(../img/club10.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.club11 {
+  background-image: url(../img/club11.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.club12 {
+  background-image: url(../img/club12.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.club13 {
+  background-image: url(../img/club13.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.diamond1 {
+  background-image: url(../img/diamond1.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.diamond2 {
+  background-image: url(../img/diamond2.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.diamond3 {
+  background-image: url(../img/diamond3.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.diamond4 {
+  background-image: url(../img/diamond4.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.diamond5 {
+  background-image: url(../img/diamond5.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.diamond6 {
+  background-image: url(../img/diamond6.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.diamond7 {
+  background-image: url(../img/diamond7.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.diamond8 {
+  background-image: url(../img/diamond8.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.diamond9 {
+  background-image: url(../img/diamond9.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.diamond10 {
+  background-image: url(../img/diamond10.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.diamond11 {
+  background-image: url(../img/diamond11.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.diamond12 {
+  background-image: url(../img/diamond12.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.diamond13 {
+  background-image: url(../img/diamond13.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.heart1 {
+  background-image: url(../img/heart1.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.heart2 {
+  background-image: url(../img/heart2.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.heart3 {
+  background-image: url(../img/heart3.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.heart4 {
+  background-image: url(../img/heart4.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.heart5 {
+  background-image: url(../img/heart5.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.heart6 {
+  background-image: url(../img/heart6.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.heart7 {
+  background-image: url(../img/heart7.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.heart8 {
+  background-image: url(../img/heart8.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.heart9 {
+  background-image: url(../img/heart9.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.heart10 {
+  background-image: url(../img/heart10.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.heart11 {
+  background-image: url(../img/heart11.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.heart12 {
+  background-image: url(../img/heart12.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.heart13 {
+  background-image: url(../img/heart13.png);
+  background-size: cover;
+  width: 100%;
+}
+
+.reverse {
+  background: #000;
+}
