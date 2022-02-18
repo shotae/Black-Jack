@@ -7,22 +7,40 @@ html {
 
 .cant-use {
   pointer-events: none;
+  background: #000;
 }
 
 .hidden {
   display: none;
 }
 
-.card-animation {
-  animation: fade, 5s, forwards, ease-in-out;
+.card-slidein {
+  animation-name: slidein;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
 }
 
-@keyframes fade {
+@keyframes slidein {
   0% {
     opacity: 0;
+    transform: translate(200px, -200px);
+    background-image: url(../img/reverse.jpeg);
+  }
+  50% {
+    transform: translate(0, 0);
+    background-image: url(../img/reverse.jpeg);
+  }
+  90% {
+    transform: translate(0, 0);
+    transform: rotateY(-90deg);
+    background-image: url(../img/reverse.jpeg);
   }
   100% {
     opacity: 1;
+    transform: translate(0, 0);
+    transform: rotateY(0deg);
+    /* background-image: url(../img/reverse.jpeg); */
   }
 }
 
@@ -50,6 +68,7 @@ html {
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
+  height: 200px;
 }
 
 .dealer {
@@ -60,22 +79,80 @@ html {
   bottom: 30%;
 }
 
-.cards-wrap,
-.cards-wrap1,
-.cards-wrap2 {
+.players-hand,
+.split-hand {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
-.cards-wrap {
+.players-hand {
   width: 100%;
 }
 
-.cards-wrap1,
-.cards-wrap2 {
-  width: 50%;
+#player-scores-area {
+  text-align: center;
+}
+
+.split-hand {
+  width: 20%;
+  height: 150px;
+}
+
+.split-cards-area div:first-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.split-cards-area div:first-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.split-cards-area div:nth-child(2) {
+  position: absolute;
+  top: 0;
+  left: 10%;
+}
+
+.split-cards-area div:nth-child(3) {
+  position: absolute;
+  top: 0;
+  left: 20%;
+}
+
+.split-cards-area div:nth-child(4) {
+  position: absolute;
+  top: 0;
+  left: 30%;
+}
+
+.split-cards-area div:nth-child(5) {
+  position: absolute;
+  top: 0;
+  left: 40%;
+}
+
+.split-cards-area div:nth-child(6) {
+  position: absolute;
+  top: 0;
+  left: 50%;
+}
+
+.split-scores-area {
+  position: absolute;
+  left: 10%;
+  background: #0009;
+  bottom: 10%;
+  font-size: 30px;
+}
+
+.selecting-hand {
+  background: yellow;
 }
 
 .hand {
@@ -84,12 +161,13 @@ html {
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 150px;
   margin: 10px auto;
 }
 
 .hand > div {
-  width: 100px;
-  height: 142px;
+  width: 105px;
+  height: 150px;
   margin: 0 10px;
 }
 
@@ -462,5 +540,58 @@ html {
 }
 
 .reverse {
-  background: #000;
+  background-image: url(../img/reverse.jpeg);
+  background-position: center;
+  border: #000 solid 1px;
+}
+
+.reverse-slidein {
+  animation-name: reverseSlidein;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+}
+
+.dealer-card-open {
+  animation-name: cardOpen;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes cardOpen {
+  0% {
+    background-image: url(../img/reverse.jpeg);
+  }
+  50% {
+    transform: rotateY(0deg);
+    background-image: url(../img/reverse.jpeg);
+  }
+  90% {
+    transform: rotateY(-90deg);
+    background-image: url(../img/reverse.jpeg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes reverseSlidein {
+  0% {
+    opacity: 0;
+    transform: translate(200px, -200px);
+    background-image: url(../img/reverse.jpeg);
+  }
+  50% {
+    transform: translate(0, 0);
+    background-image: url(../img/reverse.jpeg);
+  }
+  90% {
+    transform: translate(0, 0);
+    background-image: url(../img/reverse.jpeg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+    background-image: url(../img/reverse.jpeg);
+  }
 }

@@ -1,5 +1,141 @@
 'use strict'
 
+const dealersHand = [];
+const playersHand = [];
+const splitHand1 = [];
+const splitHand2 = [];
+
+let dealerScores = 0;
+let playerScores = 0;
+let splitScores1 = 0;
+let splitScores2 = 0;
+let dealCounter = 0;
+let splitFlag = 0;
+let playerBurstFlag = 0;
+let splitBurstFlag  = 0;
+let dealerBurstFlag  = 0;
+
+class playerInfo {
+  constructor(handCards, $cardsArea, scoresContainer, $ScoresArea) {
+    this.handCards = handCards;
+    this.$cardsArea = $cardsArea;
+    this.scoresContainer = scoresContainer;
+    this.$ScoresArea = $ScoresArea;
+
+    this.handCards.length = 0;
+    this.$ScoresHolder = 0;
+  }
+
+  // カードを1枚配る
+  cardDeal(){
+    this.handCards.push(cards[dealCounter++]);
+    console.log(`dealCounter: ${dealCounter}`);
+    this.cardsDisplay();
+  }
+
+  // カードを表示
+  cardsDisplay() {
+    let lastCard = 0;
+    if (this.handCards === playersHand) {
+      lastCard = dealCounter -1 - dealersHand.length;
+
+    } else if (this.handCards === splitHand1) {
+      lastCard = dealCounter -1 - dealersHand.length - splitHand2.length;
+
+    } else if (this.handCards === splitHand2) {
+      lastCard = dealCounter -1 - dealersHand.length - splitHand1.length;
+
+    } else if (this.handCards === dealersHand) {
+      lastCard = dealCounter -1 - playersHand.length - splitHand1.length - splitHand2.length;
+    }
+
+    const cardNum = this.handCards[lastCard].num;
+    const cardMark = this.handCards[lastCard].mark;
+
+    if (dealCounter === 1) {
+      this.$cardsArea.append(`<div class='reverse ${cardMark}${cardNum}'></div>`);
+      $('.reverse').addClass('reverse-slidein');
+    } else if (dealCounter === 3 || dealCounter === 4) {
+      this.$cardsArea.append(`<div class='card first-player-deal  ${cardMark}${cardNum}'></div>`);
+      $('.card').addClass('card-slidein');
+
+    } else {
+      this.$cardsArea.append(`<div class='card  ${cardMark}${cardNum}'></div>`);
+      $('.card').addClass('card-slidein');
+
+    }
+    // $('.card').removeClass('animation-anchor');
+    // $('.card').removeClass('card');
+
+
+    this.scoresDisplay();
+  }
+
+  // 点数計算
+  scoresCheck() {
+    let totalScores = 0;
+    for (let i = 0; i < this.handCards.length; i++) {
+      let scores = 0;
+      scores = this.handCards[i].num;
+      if (scores >= 11) scores = 10;
+      totalScores += scores;
+    }
+    for (let i = 0; i < this.handCards.length; i++) {
+      if (this.handCards[i].num === 1 && totalScores <= 11) totalScores += 10;
+    }
+    return totalScores;
+  }
+
+  点数表示
+  scoresDisplay() {
+    this.scoresContainer = this.scoresCheck();
+
+    if (this.handCards === dealersHand && dealCounter <= 2) {
+      this.$ScoresArea.text(`Scores: ??`);
+    } else {
+      this.$ScoresArea.text(`Scores: ${this.scoresContainer}`);
+    }
+
+    if (this.scoresContainer > 21 && dealerBurstFlag !== 1) this.burstHand();
+  }
+
+  burstHand() {
+    if (this.handCards === playersHand) {
+      $('#result').append('<div>プレイヤーの手札がバースト<br>敗北</div>');
+      playerBurstFlag = 1;
+      $('#stand-button').addClass('cant-use');
+      $('#hit-button').addClass('cant-use');
+
+    } else if (this.handCards === splitHand1){
+      $('#result').append('<div>プレイヤーの手札1がバースト</div>');
+      splitFlag = 2;
+      splitBurstFlag = 1;
+      $('#split-hand1').removeClass('selecting-hand');
+      $('#split-hand2').addClass('selecting-hand');
+      return;
+
+    } else if (this.handCards === splitHand2){
+      $('#split-hand2').removeClass('selecting-hand');
+      $('#result').append('<div>プレイヤーの手札2がバースト</div>');
+      if (splitBurstFlag === 0) {
+        splitBurstFlag = 2;
+        dealerHit();
+        return;
+      } else {
+        $('#result').append('<div>手札2つバーストにつき敗北</div>');
+      };
+
+    } else if (this.handCards === dealersHand) {
+      $('#result').append('<div>ディーラーの手札がバースト</div>');
+      dealerBurstFlag = 1;
+    }
+
+    $('#stand-button').addClass('cant-use');
+    $('#hit-button').addClass('cant-use');
+    decideWinner();
+  }
+}
+
 // カードを用意
 const cards = [];
 const marks = ['spade', 'heart', 'diamond', 'club'];
@@ -25,165 +161,97 @@ function cardShuffle() {
   return cards;
 }
 
-// ディーラーが2枚ドロー（1枚は表示）
-let dealCounter = 0;
-let dealerPoints = 0;
-const dealersHand = [];
+// プレイヤー設定
+// constructor(handCards, $cardsArea, scoresContainer, $ScoresArea) {
 
+const dealer = new playerInfo(dealersHand, $('#dealer-cards-area'), dealerScores, $('#dealer-scores-area'));
+const player = new playerInfo(playersHand, $('#player-cards-area'), playerScores, $('#player-scores-area'));
+const split1 = new playerInfo(splitHand1, $('#split-cards-area1'), splitScores1, $('#split-scores-area1'));
+const split2 = new playerInfo(splitHand2, $('#split-cards-area2'), splitScores2, $('#split-scores-area2'));
+
+
+// ディーラーが2枚ドロー
 function dealDealer() {
-  for (let i = 0; i < 2; i++) {
-    cardDeal(dealersHand);
+  for(let i = 0; i < 1000;) {
+    setTimeout(function() {
+      dealer.cardDeal();
+    },i += 500);
   };
 };
 
 // プレイヤーが2枚ドロー
-let playerPoints = 0;
-const playersHand = [];
-
 function dealPlayer() {
-  for (let i = 0; i < 2; i++) {
-    cardDeal(playersHand);
+  for(let i = 0; i < 1000;) {
+    setTimeout(function() {
+      player.cardDeal();
+    },(i += 500) + 1000);
   };
 
-  $('button').removeClass('cant-use');
+  setTimeout(function() {
+    $('#start-game, #hit-button, #stand-button').removeClass('cant-use');
+    if ((playersHand[0].num === playersHand[1].num) ||
+        (playersHand[0].num >= 10 && playersHand[1].num >= 10)) {
+      $('#split-button').removeClass('cant-use');
+    }
+  }, 2000)
+
+
 };
 
-// 点数チェック
-let totalPoints = 0;
-function pointCheck(array) {
-  totalPoints = 0;
-  for (let i = 0; i < array.length; i++) {
-    let point = 0;
-    point = array[i].num;
-    if (point >= 11) point = 10;
-    totalPoints += point;
-  }
-  for (let i = 0; i < array.length; i++) {
-    if (array[i].num === 1 && totalPoints <= 11) totalPoints += 10;
-  }
-  return totalPoints;
-}
-
 // split
-let splitFlag = 0;
-const splitPlayersHand1 = [];
-const splitPlayersHand2 = [];
 $('#split-button').on('click', function() {
   $('#split-button').addClass('cant-use');
-  if ((playersHand[0].num === playersHand[1].num) ||
-      (playersHand[0].num >= 10 && playersHand[1].num >= 10)) {
-    splitPlayersHand1[0] = playersHand[0];
-    splitPlayersHand2[0] = playersHand[1];
-    playersHand.length = 0;
-    splitFlag = 1;
 
-    $('.first-player-deal').remove();
-    let cardNum = splitPlayersHand1[0].num;
-    let cardMark = splitPlayersHand1[0].mark;
-    $('#player-cards1').append(`<div class='card-animation ${cardMark}${cardNum}'></div>`);
-    tmpPoints = pointCheck(splitPlayersHand1);
-    $('#player-points1').text(`Points: ${tmpPoints}`)
+  splitHand1[0] = playersHand[0];
+  splitHand2[0] = playersHand[1];
+  playersHand.length = 0;
+  splitFlag = 1;
 
-    cardNum = splitPlayersHand2[0].num;
-    cardMark = splitPlayersHand2[0].mark;
-    $('#player-cards2').append(`<div class='card-animation ${cardMark}${cardNum}'></div>`);
-    tmpPoints = pointCheck(splitPlayersHand2);
-    $('#player-points2').text(`Points: ${tmpPoints}`)
+  $('.first-player-deal').remove();
 
-    $('.cards-wrap1, .cards-wrap2').removeClass('split-hidden');
-    $('.cards-wrap').addClass('split-hidden');
-  };
+  split1.cardsDisplay();
+  split2.cardsDisplay();
+
+  $('#split-hand1, #split-hand2').removeClass('split-hidden');
+  $('#players-hand').addClass('split-hidden');
+  $('#split-hand1').addClass('selecting-hand');
 });
-  
+
+
 //  プレイヤーがヒット（1枚引く）
-let splitPlayersPoints1 = 0;
-let splitPlayersPoints2 = 0;
 $('#hit-button').on('click', function() {
+  $('#split-button').addClass('cant-use');
   if (splitFlag === 0) {
-    cardDeal(playersHand);
-    playerPoints = tmpPoints;
+    player.cardDeal();
   } else if (splitFlag === 1) {
-    cardDeal(splitPlayersHand1);
-    splitPlayersPoints1 = tmpPoints;
+    console.log('hit flag1')
+    split1.cardDeal();
   } else if (splitFlag === 2) {
-    cardDeal(splitPlayersHand2);
-    splitPlayersPoints2 = tmpPoints;
+    console.log('hit flag2')
+    split2.cardDeal();
   }
 });
-
-// カードを配る
-let lastCard = 0;
-let tmpPoints = 0;
-let $cardsHolder = '';
-let $pointsHolder = '';
-function cardDeal(arry) {
-  arry.push(cards[dealCounter]);
-
-
-  if (arry === playersHand) {
-    lastCard = dealCounter++ - dealersHand.length;
-    $cardsHolder = $('#player-cards');
-    $pointsHolder = $('#player-points');
-
-  } else if (arry === splitPlayersHand1) {
-    lastCard = dealCounter++ - dealersHand.length - splitPlayersHand2.length;
-    $cardsHolder = $('#player-cards1');
-    $pointsHolder = $('#player-points1');
-
-  } else if (arry === splitPlayersHand2) {
-    lastCard = dealCounter++ - dealersHand.length - splitPlayersHand1.length;
-    $cardsHolder = $('#player-cards2');
-    $pointsHolder = $('#player-points2');
-
-  } else if (arry === dealersHand) {
-    lastCard = dealCounter++ - playersHand.length - splitPlayersHand1.length - splitPlayersHand2.length;
-    $cardsHolder = $('#dealer-cards');
-    $pointsHolder = $('#dealer-points');
-  }
-
-  const cardNum = arry[lastCard].num;
-  const cardMark = arry[lastCard].mark;
-
-  if (dealCounter === 1) {
-    $cardsHolder.append(`<div class='card-animation reverse ${cardMark}${cardNum}'></div>`);
-  } else if (dealCounter === 3 || dealCounter === 4) {
-    $cardsHolder.append(`<div class='card-animation first-player-deal ${cardMark}${cardNum}'></div>`);
-  } else {
-    $cardsHolder.append(`<div class='card-animation ${cardMark}${cardNum}'></div>`);
-  }
-
-  tmpPoints = pointCheck(arry);
-  displayPoint(arry);
-}
-
-// 得点を表示
-function displayPoint(arry) {
-  tmpPoints = pointCheck(arry);
-  if (arry === dealersHand) {
-    $pointsHolder.text(`Points: ??`);
-  } else {
-    $pointsHolder.text(`Points: ${tmpPoints}`);
-  }
-
-  if (tmpPoints > 21) burstHand(arry);
-}
 
 // プレイヤーがスタンド
 $('#stand-button').on('click', function() {
   if (splitFlag === 1) {
     splitFlag = 2;
+    $('#split-hand1').removeClass('selecting-hand');
+    $('#split-hand2').addClass('selecting-hand');
     return;
   };
   $('#hit-button').addClass('cant-use');
+  $('#split-button').addClass('cant-use');
+  $('#split-hand2').removeClass('selecting-hand');
   dealerHit();
 });
 
 // ＆ ディーラーが可能な限りヒット
 function dealerHit() {
-  dealerPoints = pointCheck(dealersHand);
-  while (dealerPoints <= 17) {
-    cardDeal(dealersHand);
-    dealerPoints = tmpPoints;
+  dealerScores = dealer.scoresCheck();
+  while (dealerScores <= 17) {
+    dealer.cardDeal();
+    dealerScores = dealer.scoresCheck();
   };
   if (dealerBurstFlag === 0) decideWinner();
 };
@@ -191,24 +259,28 @@ function dealerHit() {
 // 勝敗を決める
 function decideWinner() {
   dealerCardOpen();
-  playerPoints = pointCheck(playersHand);
-  splitPlayersPoints1 = pointCheck(splitPlayersHand1);
-  splitPlayersPoints2 = pointCheck(splitPlayersHand2);
-  dealerPoints = pointCheck(dealersHand);
+  playerScores = player.scoresCheck();
+  splitScores1 = split1.scoresCheck();
+  splitScores2 = split2.scoresCheck();
+  dealerScores = dealer.scoresCheck();
 
-  if (splitFlag === 0) {
-    if (playerPoints > dealerPoints || dealerBurstFlag === 1) {
+  if (splitFlag === 0 && playerBurstFlag === 0) {
+    if (playerScores > dealerScores || dealerBurstFlag === 1) {
       $('#result').append('<div>勝利</div>');
     } else {
       $('#result').append('<div>敗北</div>');;
     }
   } else if (splitFlag !== 0) {
-    if (splitPlayersPoints1 > dealerPoints) {
+    if (splitScores1 > dealerScores && splitBurstFlag !== 1) {
+      $('#result').append('<div>手札1:勝利</div>');
+    } else if (splitBurstFlag !== 1 && dealerBurstFlag === 1) {
       $('#result').append('<div>手札1:勝利</div>');
     } else {
       $('#result').append('<div>手札1:敗北</div>');
     };
-    if (splitPlayersPoints2 > dealerPoints && splitPlayersPoints2 <= 21) {
+    if (splitScores2 > dealerScores && splitBurstFlag !== 2) {
+      $('#result').append('<div>手札2:勝利</div>');
+    }else if (splitBurstFlag !== 2 && dealerBurstFlag === 1) {
       $('#result').append('<div>手札2:勝利</div>');
     } else {
       $('#result').append('<div>手札2:敗北</div>');
@@ -217,44 +289,11 @@ function decideWinner() {
   $('#stand-button').addClass('cant-use');
 }
 
-// バーストの処理
-let splitBurstFlag  = 0;
-let dealerBurstFlag  = 0;
-function burstHand (burster) {
-  if (burster === playersHand) {
-    $('#result').append('<div>プレイヤーの手札がバースト<br>敗北</div>');
-    $('#stand-button').addClass('cant-use');
-    $('#hit-button').addClass('cant-use');
-
-  } else if (burster === splitPlayersHand1){
-    $('#result').append('<div>プレイヤーの手札がバースト1</div>');
-    splitFlag = 2;
-    splitBurstFlag = 1;
-    return;
-
-  } else if (burster === splitPlayersHand2){
-    $('#result').append('<div>プレイヤーの手札がバースト2</div>');
-    if (splitBurstFlag === 0) {
-      dealerHit();
-    } else {
-      $('#result').append('<div>手札2つバーストにつき敗北</div>');;
-    };
-
-  } else if (burster === dealersHand) {
-    $('#result').append('<div>ディーラーの手札がバースト<br>勝利</div>');
-    dealerBurstFlag = 1;
-  }
-
-  $('#stand-button').addClass('cant-use');
-  $('#hit-button').addClass('cant-use');
-  dealerCardOpen();
-}
-
 // ディーラーのカードオープン
 function dealerCardOpen() {
+  $('.reverse').addClass('dealer-card-open');
   $('.reverse').removeClass('reverse');
-  dealerPoints = pointCheck(dealersHand);
-  $('#dealer-points').text(`Points: ${dealerPoints}`);
+  dealer.scoresDisplay();
 }
 
 // start
@@ -263,16 +302,19 @@ $('#start-game').on('click', function() {
   $(this).text('New Game')
   $('button').addClass('cant-use');
   $('.hidden').removeClass('hidden');
-  $('.cards-wrap1, .cards-wrap').addClass('split-hidden');
-  $('.cards-wrap').removeClass('split-hidden');
+  $('#split-hand1, #split-hand2').addClass('split-hidden');
+  $('#players-hand').removeClass('split-hidden');
+  $('#split-hand1, #split-hand2').removeClass('selecting-hand');
   dealCounter = 0;
   cards.length = 0;
   dealersHand.length = 0;
   playersHand.length = 0;
-  splitPlayersHand1.length = 0;
-  splitPlayersHand2.length = 0;
+  splitHand1.length = 0;
+  splitHand2.length = 0;
   splitFlag = 0;
   dealerBurstFlag = 0;
+  splitBurstFlag = 0;
+  playerBurstFlag = 0;
   $('.html-reset').empty();
   prepareCards();
   cardShuffle();
